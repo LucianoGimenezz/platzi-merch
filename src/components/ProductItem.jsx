@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, IconButton, Badge, Text, Image } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, handleCart }) => {
   return (
     <Box
       justifySelf="center"
@@ -45,6 +45,7 @@ const ProductItem = ({ product }) => {
           </Badge>
         </Box>
         <IconButton
+          onClick={() => handleCart(product)}
           bg="green.200"
           color="whiteAlpha.800"
           fontWeight="bold"
