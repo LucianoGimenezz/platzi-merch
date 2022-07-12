@@ -3,6 +3,7 @@ import { Container, Box, Heading, Text } from '@chakra-ui/react';
 import AppContext from '../context/AppContext';
 
 const Sucess = () => {
+  const position = [51.505, -0.09];
   const {
     state: { buyer }
   } = useContext(AppContext);

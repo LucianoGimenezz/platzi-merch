@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import {
   Container,
   Box,
@@ -6,13 +6,25 @@ import {
   Input,
   Button,
   Heading,
-  Text
+  Text,
+  FormControl,
+  FormErrorMessage
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 const CheckoutInformation = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState({
+    name: false,
+    email: false,
+    address: false,
+    city: false,
+    country: false,
+    state: false,
+    cp: false,
+    phone: false
+  });
   const {
     state: { cart },
     addToBuyer
@@ -21,6 +33,74 @@ const CheckoutInformation = () => {
 
   const handlePay = () => {
     const formData = new FormData(form.current);
+
+    if (formData.get('name').trim() === '') {
+      setError({
+        ...error,
+        name: true
+      });
+      return;
+    }
+
+    if (
+      formData.get('email').trim() === '' ||
+      !formData.get('email').includes('@')
+    ) {
+      setError({
+        ...error,
+        email: true
+      });
+      return;
+    }
+
+    if (formData.get('direction').trim() === '') {
+      setError({
+        ...error,
+        address: true
+      });
+      return;
+    }
+
+    if (formData.get('city').trim() === '') {
+      setError({
+        ...error,
+        city: true
+      });
+      return;
+    }
+
+    if (formData.get('country').trim() === '') {
+      setError({
+        ...error,
+        country: true
+      });
+      return;
+    }
+
+    if (formData.get('state').trim() === '') {
+      setError({
+        ...error,
+        state: true
+      });
+      return;
+    }
+
+    if (formData.get('cp').trim() === '') {
+      setError({
+        ...error,
+        cp: true
+      });
+      return;
+    }
+
+    if (formData.get('phone').trim() === '') {
+      setError({
+        ...error,
+        phone: true
+      });
+      return;
+    }
+
     const buyer = {
       name: formData.get('name'),
       email: formData.get('email'),
@@ -53,23 +133,95 @@ const CheckoutInformation = () => {
       >
         <Box width="50%">
           <form ref={form}>
-            <Input name="name" placeholder="Nombre completo" />
+            <FormControl mt={2} isInvalid={error.name}>
+              <Input
+                name="name"
+                placeholder="Nombre completo"
+                onChange={() => setError(false)}
+              />
+              {error.name && (
+                <FormErrorMessage>name is required</FormErrorMessage>
+              )}
+            </FormControl>
 
-            <Input name="email" placeholder="Correo Electronico" />
+            <FormControl mt={2} isInvalid={error.email}>
+              <Input
+                name="email"
+                placeholder="Correo Electronico"
+                onChange={() => setError(false)}
+              />
+              {error.email && (
+                <FormErrorMessage>email is required</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={2} isInvalid={error.address}>
+              <Input
+                onChange={() => setError(false)}
+                name="direction"
+                placeholder="Direccion"
+              />
+              {error.address && (
+                <FormErrorMessage>direction is required</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={2}>
+              <Input
+                onChange={() => setError(false)}
+                name="apto"
+                placeholder="Apto (opcional)"
+              />
+            </FormControl>
 
-            <Input name="direction" placeholder="Direccion" />
-
-            <Input name="apto" placeholder="Apto" />
-
-            <Input name="city" placeholder="Ciudad" />
-
-            <Input name="country" placeholder="Pais" />
-
-            <Input name="state" placeholder="Estado" />
-
-            <Input name="cp" placeholder="Codigo postal" />
-
-            <Input name="phone" placeholder="Telefono" />
+            <FormControl mt={2} isInvalid={error.city}>
+              <Input
+                onChange={() => setError(false)}
+                name="city"
+                placeholder="Ciudad"
+              />
+              {error.city && (
+                <FormErrorMessage>city is required</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={2} isInvalid={error.country}>
+              <Input
+                onChange={() => setError(false)}
+                name="country"
+                placeholder="Pais"
+              />
+              {error.country && (
+                <FormErrorMessage>country is required</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={2} isInvalid={error.state}>
+              <Input
+                onChange={() => setError(false)}
+                name="state"
+                placeholder="Estado"
+              />
+              {error.state && (
+                <FormErrorMessage>state is required</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={2} isInvalid={error.cp}>
+              <Input
+                onChange={() => setError(false)}
+                name="cp"
+                placeholder="Codigo postal"
+              />
+              {error.cp && (
+                <FormErrorMessage>zip code is required</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl mt={2} isInvalid={error.phone}>
+              <Input
+                onChange={() => setError(false)}
+                name="phone"
+                placeholder="Telefono"
+              />
+              {error.phone && (
+                <FormErrorMessage>phone is required</FormErrorMessage>
+              )}
+            </FormControl>
 
             <Box w="full" display="flex" justifyContent="space-between" pt={3}>
               <Link to="/checkout">
