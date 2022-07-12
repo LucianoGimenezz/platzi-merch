@@ -165,11 +165,7 @@ const CheckoutInformation = () => {
               )}
             </FormControl>
             <FormControl mt={2}>
-              <Input
-                onChange={() => setError(false)}
-                name="apto"
-                placeholder="Apto (opcional)"
-              />
+              <Input name="apto" placeholder="Apto (opcional)" />
             </FormControl>
 
             <FormControl mt={2} isInvalid={error.city}>
